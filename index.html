@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Retail — Interactive Visualization</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>UK Online Retail Sales Dashboard</h1>
+        <div class="kpi-row" id="kpi-container">
+            <div class="kpi-card"><h3>Total Sales</h3><p id="kpi-sales">-</p></div>
+            <div class="kpi-card"><h3>Total Orders</h3><p id="kpi-orders">-</p></div>
+            <div class="kpi-card"><h3>Avg Order Value</h3><p id="kpi-aov">-</p></div>
+            <div class="kpi-card"><h3>Active Customers</h3><p id="kpi-customers">-</p></div>
+        </div>
+    </header>
+
+    <div id="app">
+        <aside id="filter-panel">
+            <h3>Filters</h3>
+            <div class="filter-group">
+                <label>Date From</label>
+                <input type="date" id="filter-date-from">
+            </div>
+            <div class="filter-group">
+                <label>Date To</label>
+                <input type="date" id="filter-date-to">
+            </div>
+            <div class="filter-group">
+                <label>Countries</label>
+                <div id="filter-countries"></div>
+            </div>
+            <div class="filter-group">
+                <label>Product Search</label>
+                <input type="text" id="filter-product" placeholder="Search product...">
+            </div>
+            <div class="filter-actions">
+                <button id="btn-apply">Apply</button>
+                <button id="btn-reset">Reset</button>
+            </div>
+            <div class="granularity-group">
+                <label>Time Granularity</label>
+                <button class="granularity-btn active" data-gran="day">Day</button>
+                <button class="granularity-btn" data-gran="week">Week</button>
+                <button class="granularity-btn" data-gran="month">Month</button>
+            </div>
+        </aside>
+
+        <main id="charts-area">
+            <div class="chart-row">
+                <div id="chart-sales-trend" class="chart-box chart-large"></div>
+                <div id="chart-geo-sales" class="chart-box chart-medium"></div>
+            </div>
+            <div class="chart-row">
+                <div id="chart-product-analysis" class="chart-box chart-medium"></div>
+                <div id="chart-customer-rfm" class="chart-box chart-medium"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/data-loader.js"></script>
+    <script src="js/data-processor.js"></script>
+    <script src="js/charts/kpi-overview.js"></script>
+    <script src="js/charts/sales-trend.js"></script>
+    <script src="js/charts/product-analysis.js"></script>
+    <script src="js/charts/geo-sales.js"></script>
+    <script src="js/charts/customer-rfm.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
