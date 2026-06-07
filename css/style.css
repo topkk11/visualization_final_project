@@ -83,7 +83,7 @@ header h1 {
     border-color: #667eea;
 }
 #filter-countries {
-    max-height: 200px;
+    max-height: 140px;
     overflow-y: auto;
     font-size: 12px;
 }
@@ -94,6 +94,22 @@ header h1 {
     padding: 2px 0;
     cursor: pointer;
 }
+
+/* Segment filter colors */
+#filter-segments {
+    font-size: 12px;
+}
+#filter-segments label {
+    display: block;
+    font-weight: 400;
+    text-transform: none;
+    padding: 2px 0;
+    cursor: pointer;
+}
+#filter-segments label[data-segment="VIP"] { color: #e74c3c; }
+#filter-segments label[data-segment="Regular"] { color: #3498db; }
+#filter-segments label[data-segment="Low Value"] { color: #95a5a6; }
+#filter-segments label[data-segment="At Risk"] { color: #f39c12; }
 .filter-actions {
     display: flex;
     gap: 8px;
@@ -162,6 +178,14 @@ header h1 {
 .chart-medium {
     flex: 1;
 }
+.chart-half {
+    flex: 1;
+    min-width: 0;
+}
+.chart-full {
+    flex: 1;
+    min-width: 0;
+}
 
 /* ===== Loading Overlay ===== */
 #loading-overlay {
@@ -174,6 +198,38 @@ header h1 {
     z-index: 9999;
     font-size: 18px;
     color: #667eea;
+}
+
+/* ===== Breadcrumb ===== */
+.drilldown-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    background: #fff;
+    border-radius: 8px;
+    color: #667eea;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.drilldown-breadcrumb .crumb {
+    cursor: pointer;
+    padding: 2px 8px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+.drilldown-breadcrumb .crumb:hover {
+    background: #eef0ff;
+}
+.drilldown-breadcrumb .crumb.active {
+    font-weight: 700;
+    color: #1a1a2e;
+    cursor: default;
+}
+.drilldown-breadcrumb .separator {
+    color: #999;
+    font-size: 10px;
 }
 
 /* ===== Responsive ===== */

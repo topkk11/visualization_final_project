@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Retail — Interactive Visualization</title>
+    <title>Global E-Commerce Customer Analytics Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 </head>
 <body>
+    <div id="debug-info" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#fff3cd;color:#856404;padding:8px 16px;font-family:monospace;font-size:12px;max-height:120px;overflow-y:auto;border-top:2px solid #ffc107;white-space:pre-wrap;"></div>
     <header>
-        <h1>UK Online Retail Sales Dashboard</h1>
+        <h1>Global E-Commerce Customer Analytics</h1>
         <div class="kpi-row" id="kpi-container">
             <div class="kpi-card"><h3>Total Sales</h3><p id="kpi-sales">-</p></div>
             <div class="kpi-card"><h3>Total Orders</h3><p id="kpi-orders">-</p></div>
@@ -34,6 +35,15 @@
                 <div id="filter-countries"></div>
             </div>
             <div class="filter-group">
+                <label>Customer Segments</label>
+                <div id="filter-segments">
+                    <label data-segment="VIP"><input type="checkbox" value="VIP" class="segment-cb" checked> VIP</label>
+                    <label data-segment="Regular"><input type="checkbox" value="Regular" class="segment-cb" checked> Regular</label>
+                    <label data-segment="Low Value"><input type="checkbox" value="Low Value" class="segment-cb" checked> Low Value</label>
+                    <label data-segment="At Risk"><input type="checkbox" value="At Risk" class="segment-cb" checked> At Risk</label>
+                </div>
+            </div>
+            <div class="filter-group">
                 <label>Product Search</label>
                 <input type="text" id="filter-product" placeholder="Search product...">
             </div>
@@ -50,13 +60,19 @@
         </aside>
 
         <main id="charts-area">
-            <div class="chart-row">
-                <div id="chart-sales-trend" class="chart-box chart-large"></div>
-                <div id="chart-geo-sales" class="chart-box chart-medium"></div>
+            <div id="drilldown-breadcrumb" class="drilldown-breadcrumb">
+                <span class="crumb active">All Data</span>
             </div>
             <div class="chart-row">
-                <div id="chart-product-analysis" class="chart-box chart-medium"></div>
-                <div id="chart-customer-rfm" class="chart-box chart-medium"></div>
+                <div id="chart-sales-trend" class="chart-box chart-half"></div>
+                <div id="chart-geo-sales" class="chart-box chart-half"></div>
+            </div>
+            <div class="chart-row">
+                <div id="chart-rfm-scatter" class="chart-box chart-half"></div>
+                <div id="chart-country-customer" class="chart-box chart-half"></div>
+            </div>
+            <div class="chart-row">
+                <div id="chart-product-analysis" class="chart-box chart-full"></div>
             </div>
         </main>
     </div>
@@ -67,7 +83,8 @@
     <script src="js/charts/sales-trend.js"></script>
     <script src="js/charts/product-analysis.js"></script>
     <script src="js/charts/geo-sales.js"></script>
-    <script src="js/charts/customer-rfm.js"></script>
+    <script src="js/charts/rfm-scatter.js"></script>
+    <script src="js/charts/country-customer.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/main.js"></script>
 </body>

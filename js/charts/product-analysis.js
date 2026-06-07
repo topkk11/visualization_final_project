@@ -12,8 +12,8 @@ const ProductAnalysisModule = (() => {
         currentFilters = filters;
         const data = await DataProcessor.getTopProducts(filters, 15, sortBy);
 
-        const names = data.map(d => d.Description).reverse();
-        const values = data.map(d => d[sortBy]).reverse();
+        const names = data.map(d => d.Description);
+        const values = data.map(d => d[sortBy]);
 
         const option = {
             title: { text: 'Top 15 Products', left: 'center', textStyle: { fontSize: 15 } },

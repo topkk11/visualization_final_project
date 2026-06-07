@@ -2,8 +2,9 @@ const FilterModule = (() => {
     let currentFilters = {
         dateFrom: null,
         dateTo: null,
-        countries: [],
-        productSearch: ''
+        countries: null,        // null = no filter (all), [] = empty, [...] = filtered
+        productSearch: '',
+        segmentFilter: []
     };
 
     async function init() {
@@ -18,7 +19,7 @@ const FilterModule = (() => {
         dateToEl.min = dateRange.min;
         dateToEl.max = dateRange.max;
 
-        // 联动：dateFrom改变 → 限制dateTo的最小值
+        // dateFrom changes → clamp dateTo min
         dateFromEl.addEventListener('change', () => {
             if (dateFromEl.value) {
                 dateToEl.min = dateFromEl.value;
@@ -30,7 +31,7 @@ const FilterModule = (() => {
             }
         });
 
-        // 联动：dateTo改变 → 限制dateFrom的最大值
+        // dateTo changes → clamp dateFrom max
         dateToEl.addEventListener('change', () => {
             if (dateToEl.value) {
                 dateFromEl.max = dateToEl.value;
@@ -59,6 +60,14 @@ const FilterModule = (() => {
             });
             applyFilters();
         });
+
+        // Listen for "reset to all countries" from map empty-click
+        EventBus.on('countryReset', () => {
+            document.querySelectorAll('#filter-countries .country-cb').forEach(cb => {
+                cb.checked = true;
+            });
+            applyFilters();
+        });
     }
 
     function getCurrentFilters() {
@@ -68,18 +77,33 @@ const FilterModule = (() => {
     function applyFilters() {
         currentFilters.dateFrom = document.getElementById('filter-date-from').value || null;
         currentFilters.dateTo = document.getElementById('filter-date-to').value || null;
-        currentFilters.countries = [...document.querySelectorAll('#filter-countries .country-cb:checked')]
+
+        const allCountries = DataProcessor.getCountries();
+        const checkedCountries = [...document.querySelectorAll('#filter-countries .country-cb:checked')]
             .map(cb => cb.value);
+        // All checked → null (no filter); none checked → [] (empty); partial → [...values]
+        if (checkedCountries.length === allCountries.length) {
+            currentFilters.countries = null;
+        } else if (checkedCountries.length === 0) {
+            currentFilters.countries = [];
+        } else {
+            currentFilters.countries = checkedCountries;
+        }
+
         currentFilters.productSearch = document.getElementById('filter-product').value.trim() || null;
+        const allSegments = [...document.querySelectorAll('#filter-segments .segment-cb')].map(cb => cb.value);
+        const checkedSegments = [...document.querySelectorAll('#filter-segments .segment-cb:checked')].map(cb => cb.value);
+        currentFilters.segmentFilter = (checkedSegments.length === allSegments.length) ? [] : checkedSegments;
         EventBus.emit('filterChange', currentFilters);
     }
 
     function resetFilters() {
-        currentFilters = { dateFrom: null, dateTo: null, countries: [], productSearch: null };
+        currentFilters = { dateFrom: null, dateTo: null, countries: null, productSearch: null, segmentFilter: [] };
         document.getElementById('filter-date-from').value = '';
         document.getElementById('filter-date-to').value = '';
         document.getElementById('filter-product').value = '';
         document.querySelectorAll('#filter-countries .country-cb').forEach(cb => { cb.checked = true; });
+        document.querySelectorAll('#filter-segments .segment-cb').forEach(cb => { cb.checked = true; });
         EventBus.emit('filterChange', currentFilters);
     }
 
